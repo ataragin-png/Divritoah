@@ -105,7 +105,10 @@
 
       /* ── Admin link ── */
       .admin-bar {
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
         margin-bottom: 32px;
       }
       .btn-admin {
@@ -126,6 +129,13 @@
         transition: background 0.2s;
       }
       .btn-admin:hover { background: var(--gold-light); }
+      .btn-admin-outline {
+        background: transparent;
+        color: var(--gold);
+        border: 1.5px solid var(--gold);
+        box-shadow: none;
+      }
+      .btn-admin-outline:hover { background: rgba(184,134,58,0.08); }
 
       /* ── Remove button ── */
       .btn-remove {
@@ -153,7 +163,7 @@
     <header class="site-header">
       <nav>
         <a href="index.html" class="back-link">← חזרה</a>
-        <span class="nav-name">א.ת</span>
+        <span class="nav-name">א.ט</span>
       </nav>
     </header>
 
@@ -173,6 +183,7 @@
         <!-- Admin publish button -->
         <div class="admin-bar">
           <a href="/admin" class="btn-admin">✍️ פרסם דבר תורה חדש</a>
+          <button class="btn-admin btn-admin-outline" onclick="filter('הכל'); document.getElementById('torah-grid').scrollIntoView({behavior:'smooth'})">📚 כל הדברי תורה</button>
         </div>
 
         <!-- Category filter -->
