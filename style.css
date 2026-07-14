@@ -1,0 +1,57 @@
+/* A clean, minimal starting point. It's deliberately plain — your prompts will
+   shape how the site actually looks. Edit freely (or just ask the AI to). */
+
+:root {
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --bg: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.shell {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 18vh 24px 24px;
+}
+
+.tag {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+
+h1 {
+  font-size: 44px;
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+
+.lead {
+  font-size: 18px;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.hint {
+  font-size: 15px;
+  color: var(--muted);
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}

@@ -1,0 +1,9 @@
+# Lets Replit preview your site while you build. When you click Run, this serves
+# the folder so the webview shows index.html. (Your real, public site is hosted
+# by GitHub Pages — see the handout.)
+modules = ["python-3.11"]
+run = "python3 -m http.server 3000"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
