@@ -136,6 +136,8 @@
         box-shadow: none;
       }
       .btn-admin-outline:hover { background: rgba(184,134,58,0.08); }
+      .admin-only-btn { display: none; }
+      body.admin-mode .admin-only-btn { display: inline-flex; }
 
       /* ── Admin mode toggle in nav ── */
       .btn-admin-mode {
@@ -216,7 +218,7 @@
 
         <!-- Admin publish button -->
         <div class="admin-bar">
-          <a href="/admin" class="btn-admin">✍️ פרסם דבר תורה חדש</a>
+          <a href="/admin" class="btn-admin admin-only-btn">✍️ פרסם דבר תורה חדש</a>
           <button class="btn-admin btn-admin-outline" onclick="filter('הכל'); document.getElementById('torah-grid').scrollIntoView({behavior:'smooth'})">📚 כל הדברי תורה</button>
         </div>
 
