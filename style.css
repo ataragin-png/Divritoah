@@ -84,24 +84,26 @@ main {
   text-align: center;
 }
 
-/* Monogram medallion */
-.monogram {
-  width: 80px;
-  height: 80px;
+/* Photo frame */
+.photo-frame {
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-  color: #fff;
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin: 0 auto 32px;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   box-shadow:
-    0 2px 12px rgba(184,134,58,0.3),
-    0 0 0 6px rgba(184,134,58,0.12);
-  letter-spacing: 0.04em;
+    0 4px 20px rgba(184,134,58,0.3),
+    0 0 0 6px rgba(184,134,58,0.1);
+}
+
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
 }
 
 /* Name */
