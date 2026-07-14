@@ -137,8 +137,37 @@
       }
       .btn-admin-outline:hover { background: rgba(184,134,58,0.08); }
 
-      /* ── Remove button ── */
+      /* ── Admin mode toggle in nav ── */
+      .btn-admin-mode {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        color: var(--border);
+        padding: 4px 6px;
+        border-radius: 4px;
+        transition: color 0.2s;
+        line-height: 1;
+      }
+      .btn-admin-mode:hover { color: var(--gold); }
+      body.admin-mode .btn-admin-mode { color: var(--gold); }
+
+      .admin-mode-badge {
+        display: none;
+        font-size: 11px;
+        color: var(--gold);
+        font-family: 'Frank Ruhl Libre', serif;
+        border: 1px solid var(--gold);
+        border-radius: 10px;
+        padding: 1px 8px;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      body.admin-mode .admin-mode-badge { display: inline; }
+
+      /* ── Remove button — hidden until admin mode ── */
       .btn-remove {
+        display: none;
         background: none;
         border: none;
         font-size: 18px;
@@ -149,6 +178,7 @@
         transition: color 0.2s, background 0.2s;
         flex-shrink: 0;
       }
+      body.admin-mode .btn-remove { display: inline-flex; align-items: center; }
       .btn-remove:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
 
       @media (max-width: 520px) {
@@ -163,7 +193,11 @@
     <header class="site-header">
       <nav>
         <a href="index.html" class="back-link">← חזרה</a>
-        <span class="nav-name">א.ט</span>
+        <span class="nav-name">
+          <span class="admin-mode-badge">ניהול</span>
+          א.ט
+          <button class="btn-admin-mode" onclick="toggleAdminMode()" title="מצב ניהול">🔑</button>
+        </span>
       </nav>
     </header>
 
@@ -258,6 +292,24 @@
             <button class="btn-remove" onclick="removeEntry('${e.file.replace(/'/g,"\\'")}', '${esc(e.title).replace(/'/g,"\\'")}')">🗑</button>
           </div>
         `).join('');
+      }
+
+      function toggleAdminMode() {
+        if (document.body.classList.contains('admin-mode')) {
+          document.body.classList.remove('admin-mode');
+          sessionStorage.removeItem('adminMode');
+          return;
+        }
+        const pw = prompt('הכנס סיסמת ניהול:');
+        if (!pw) return;
+        if (pw !== 'Torah613') { alert('❌ סיסמה שגויה'); return; }
+        document.body.classList.add('admin-mode');
+        sessionStorage.setItem('adminMode', '1');
+      }
+
+      // Restore admin mode if set in this session
+      if (sessionStorage.getItem('adminMode') === '1') {
+        document.body.classList.add('admin-mode');
       }
 
       async function removeEntry(filePath, title) {
