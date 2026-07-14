@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>דברי תורה — אשר טרגין</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="cv.css" />
+  </head>
+  <body>
+    <div class="bg-texture"></div>
+
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="back-link">← חזרה</a>
+        <span class="nav-name">א.ת</span>
+      </nav>
+    </header>
+
+    <main class="cv-main">
+      <div class="cv-container">
+
+        <div class="cv-header">
+          <div class="monogram" aria-hidden="true">AT</div>
+          <h1 class="cv-name">דברי תורה</h1>
+          <p class="cv-name-en">Torah Teachings</p>
+          <div class="divider"></div>
+          <p class="cv-meta">הרב ד"ר עו"ד אשר טרגין</p>
+        </div>
+
+        <!-- ===== כאן תוסיף את דברי התורה שלך ===== -->
+        <!--
+          להוסיף דבר תורה חדש, העתק את הבלוק הבא (article) והחלף את התוכן:
+
+          <article class="torah-entry">
+            <h2 class="torah-title">כותרת הדבר תורה</h2>
+            <p class="torah-meta">פרשת _________ · תשפ"ה</p>
+            <div class="torah-body">
+              <p>תוכן הדבר תורה...</p>
+            </div>
+          </article>
+        -->
+
+        <div class="torah-placeholder">
+          <div class="placeholder-icon">✦</div>
+          <p>דברי תורה יתווספו בקרוב</p>
+          <p class="placeholder-sub">Torah teachings coming soon</p>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; <span id="year"></span> Asher Taragin</p>
+    </footer>
+
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  </body>
+</html>

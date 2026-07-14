@@ -1,0 +1,208 @@
+/* CV & Divrei Torah pages */
+
+/* ── Back link ── */
+.back-link {
+  font-size: 14px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  font-family: 'Frank Ruhl Libre', serif;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--gold); }
+
+nav {
+  justify-content: space-between !important;
+}
+
+/* ── Page layout ── */
+.cv-main {
+  padding: 100px 24px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.cv-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ── CV Header ── */
+.cv-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.cv-name {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.cv-name-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--ink-muted);
+  margin-bottom: 0;
+}
+
+.cv-contact {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  align-items: center;
+}
+
+.cv-contact a {
+  color: var(--gold);
+  text-decoration: none;
+}
+.cv-contact a:hover { text-decoration: underline; }
+
+.dot { color: var(--border); }
+
+.cv-meta {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 8px;
+}
+
+/* ── Sections ── */
+.cv-section {
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--border);
+}
+.cv-section:last-of-type { border-bottom: none; }
+
+.section-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--parchment);
+  letter-spacing: 0.02em;
+}
+
+/* ── Blocks (sub-groups) ── */
+.cv-block {
+  margin-bottom: 20px;
+}
+
+.block-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.block-dates {
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+/* ── Entries ── */
+.cv-entry {
+  display: flex;
+  gap: 16px;
+  padding: 6px 0;
+  line-height: 1.55;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 15px;
+  border-bottom: 1px dashed rgba(221,201,158,0.4);
+}
+.cv-entry:last-child { border-bottom: none; }
+
+.entry-dates {
+  flex: 0 0 200px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 300;
+  padding-top: 2px;
+  white-space: nowrap;
+}
+
+.entry-desc {
+  flex: 1;
+  color: var(--ink);
+}
+
+.cv-entry.pub .entry-desc {
+  font-size: 14px;
+}
+
+/* ── Torah page ── */
+.torah-placeholder {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--ink-muted);
+  font-family: 'Frank Ruhl Libre', serif;
+}
+
+.placeholder-icon {
+  font-size: 36px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.torah-placeholder p {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.placeholder-sub {
+  font-size: 14px !important;
+  font-style: italic;
+}
+
+.torah-entry {
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.torah-entry:last-of-type { border-bottom: none; }
+
+.torah-title {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.torah-meta {
+  font-size: 13px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  letter-spacing: 0.04em;
+}
+
+.torah-body p {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 560px) {
+  .cv-entry {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .entry-dates {
+    flex: none;
+    font-size: 12px;
+  }
+}
