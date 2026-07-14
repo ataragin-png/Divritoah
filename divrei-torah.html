@@ -10,255 +10,70 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="cv.css" />
     <style>
-      /* ── Add buttons bar ── */
-      .add-bar {
+      /* ── Filter bar ── */
+      .filter-bar {
         display: flex;
-        justify-content: center;
-        gap: 14px;
         flex-wrap: wrap;
-        margin-bottom: 40px;
-      }
-
-      .btn-add {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--gold);
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 12px 28px;
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 17px;
-        font-weight: 500;
-        cursor: pointer;
-        box-shadow: 0 2px 10px rgba(184,134,58,0.25);
-        transition: background 0.2s, box-shadow 0.2s;
-      }
-      .btn-add:hover {
-        background: var(--gold-light);
-        box-shadow: 0 4px 16px rgba(184,134,58,0.35);
-      }
-      .btn-add.btn-outline {
-        background: transparent;
-        color: var(--gold);
-        border: 1.5px solid var(--gold);
-        box-shadow: none;
-      }
-      .btn-add.btn-outline:hover {
-        background: rgba(184,134,58,0.08);
-        box-shadow: none;
-      }
-      .btn-add .plus { font-size: 22px; line-height: 1; }
-
-      /* ── Modal overlay ── */
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(44,31,14,0.45);
-        z-index: 100;
-        align-items: center;
         justify-content: center;
-        padding: 20px;
+        gap: 8px;
+        margin-bottom: 36px;
       }
-      .modal-overlay.open { display: flex; }
-
-      .modal {
-        background: var(--cream);
-        border-radius: 8px;
-        padding: 36px 32px 28px;
-        width: 100%;
-        max-width: 560px;
-        box-shadow: 0 12px 48px rgba(44,31,14,0.25);
-        position: relative;
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-
-      .modal-title {
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 22px;
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 24px;
-      }
-
-      .modal-close {
-        position: absolute;
-        top: 16px;
-        left: 16px;
-        background: none;
-        border: none;
-        font-size: 22px;
-        color: var(--ink-muted);
-        cursor: pointer;
-        line-height: 1;
-        padding: 4px;
-      }
-      .modal-close:hover { color: var(--ink); }
-
-      /* ── Form fields ── */
-      .field { margin-bottom: 18px; }
-      .field label {
-        display: block;
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--ink-muted);
-        margin-bottom: 6px;
-      }
-      .field input[type="text"],
-      .field textarea {
-        width: 100%;
-        background: #fff;
+      .filter-btn {
+        padding: 7px 18px;
+        border-radius: 20px;
         border: 1.5px solid var(--border);
-        border-radius: 4px;
-        padding: 10px 14px;
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 16px;
-        color: var(--ink);
-        outline: none;
-        transition: border-color 0.2s;
-        resize: vertical;
-      }
-      .field input[type="text"]:focus,
-      .field textarea:focus { border-color: var(--gold); }
-      .field textarea { min-height: 160px; }
-
-      /* File upload zone */
-      .file-zone {
-        border: 2px dashed var(--border);
-        border-radius: 6px;
-        padding: 28px 16px;
-        text-align: center;
-        cursor: pointer;
-        transition: border-color 0.2s, background 0.2s;
-        background: #fff;
-        position: relative;
-      }
-      .file-zone:hover, .file-zone.drag { border-color: var(--gold); background: rgba(184,134,58,0.04); }
-      .file-zone input[type="file"] {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-      }
-      .file-zone-icon { font-size: 32px; margin-bottom: 8px; }
-      .file-zone-text {
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 15px;
-        color: var(--ink-muted);
-      }
-      .file-zone-text strong { color: var(--gold); }
-      .file-zone-name {
-        margin-top: 10px;
-        font-size: 14px;
-        color: var(--ink);
-        font-weight: 500;
-        display: none;
-      }
-
-      .modal-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        margin-top: 24px;
-      }
-      .btn-cancel {
         background: transparent;
-        border: 1.5px solid var(--border);
-        border-radius: 4px;
-        padding: 10px 22px;
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 16px;
         color: var(--ink-muted);
-        cursor: pointer;
-        transition: border-color 0.2s;
-      }
-      .btn-cancel:hover { border-color: var(--ink-muted); }
-      .btn-save {
-        background: var(--gold);
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 10px 28px;
         font-family: 'Frank Ruhl Libre', serif;
-        font-size: 16px;
-        font-weight: 500;
+        font-size: 14px;
         cursor: pointer;
-        transition: background 0.2s;
-      }
-      .btn-save:hover { background: var(--gold-light); }
-
-      /* ── Delete button on each entry ── */
-      .torah-entry, .doc-entry { position: relative; }
-      .btn-delete {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: none;
-        border: none;
-        color: var(--border);
-        font-size: 18px;
-        cursor: pointer;
-        padding: 4px;
-        line-height: 1;
-        transition: color 0.2s;
-      }
-      .btn-delete:hover { color: #c0392b; }
-
-      /* ── Documents section ── */
-      .section-divider {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin: 40px 0 28px;
-      }
-      .section-divider h2 {
-        font-family: 'Frank Ruhl Libre', serif;
-        font-size: 20px;
-        font-weight: 700;
-        color: var(--gold);
+        transition: all 0.2s;
         white-space: nowrap;
       }
-      .section-divider::before,
-      .section-divider::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: var(--border);
+      .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+      .filter-btn.active {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #fff;
       }
 
-      .doc-entry {
+      /* ── Entry cards ── */
+      .torah-grid { display: flex; flex-direction: column; gap: 12px; }
+
+      .torah-card {
         display: flex;
         align-items: center;
         gap: 16px;
-        padding: 14px 16px 14px 40px;
+        padding: 16px 18px;
         border: 1px solid var(--border);
         border-radius: 6px;
-        margin-bottom: 12px;
         background: #fff;
+        transition: box-shadow 0.2s;
       }
-      .doc-icon {
-        font-size: 28px;
-        flex-shrink: 0;
-      }
-      .doc-info { flex: 1; min-width: 0; }
-      .doc-title {
+      .torah-card:hover { box-shadow: 0 2px 12px rgba(184,134,58,0.12); }
+
+      .card-icon { font-size: 26px; flex-shrink: 0; }
+
+      .card-info { flex: 1; min-width: 0; }
+      .card-title {
         font-family: 'Frank Ruhl Libre', serif;
         font-size: 17px;
         font-weight: 500;
         color: var(--ink);
-        margin-bottom: 2px;
+        margin-bottom: 3px;
       }
-      .doc-meta {
-        font-size: 13px;
-        color: var(--ink-muted);
+      .card-meta { font-size: 13px; color: var(--ink-muted); }
+      .card-cat {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: rgba(184,134,58,0.1);
+        color: var(--gold);
+        margin-top: 4px;
       }
-      .btn-download {
+
+      .btn-view {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -266,15 +81,56 @@
         border: 1.5px solid var(--gold);
         color: var(--gold);
         border-radius: 4px;
-        padding: 7px 16px;
+        padding: 8px 18px;
         font-family: 'Frank Ruhl Libre', serif;
         font-size: 14px;
         cursor: pointer;
         text-decoration: none;
         transition: background 0.2s;
         flex-shrink: 0;
+        white-space: nowrap;
       }
-      .btn-download:hover { background: rgba(184,134,58,0.08); }
+      .btn-view:hover { background: rgba(184,134,58,0.08); }
+
+      /* ── Empty state ── */
+      .empty-state {
+        text-align: center;
+        padding: 60px 24px;
+        color: var(--ink-muted);
+        font-family: 'Frank Ruhl Libre', serif;
+      }
+      .empty-icon { font-size: 36px; opacity: 0.4; margin-bottom: 14px; }
+      .empty-state p { font-size: 18px; }
+      .empty-state .sub { font-size: 14px; margin-top: 6px; }
+
+      /* ── Admin link ── */
+      .admin-bar {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .btn-admin {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gold);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 11px 26px;
+        font-family: 'Frank Ruhl Libre', serif;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 2px 10px rgba(184,134,58,0.25);
+        transition: background 0.2s;
+      }
+      .btn-admin:hover { background: var(--gold-light); }
+
+      @media (max-width: 520px) {
+        .torah-card { flex-wrap: wrap; }
+        .btn-view { width: 100%; justify-content: center; }
+      }
     </style>
   </head>
   <body>
@@ -300,83 +156,27 @@
           <p class="cv-meta">הרב ד"ר עו"ד אשר טרגין</p>
         </div>
 
-        <!-- Action buttons -->
-        <div class="add-bar">
-          <button class="btn-add" onclick="openTextModal()">
-            <span class="plus">+</span> הוסף דבר תורה
-          </button>
-          <button class="btn-add btn-outline" onclick="downloadTorahEntries()">
-            ⬇ הורד דברי תורה
-          </button>
-          <button class="btn-add btn-outline" onclick="openDocModal()">
-            <span class="plus">+</span> הוסף מסמך
-          </button>
+        <!-- Admin publish button -->
+        <div class="admin-bar">
+          <a href="/admin" class="btn-admin">✍️ פרסם דבר תורה חדש</a>
         </div>
 
-        <!-- Text entries -->
-        <div id="torah-list"></div>
-
-        <!-- Documents section -->
-        <div id="docs-section" style="display:none">
-          <div class="section-divider"><h2>מסמכים</h2></div>
-          <div id="docs-list"></div>
+        <!-- Category filter -->
+        <div class="filter-bar" id="filter-bar">
+          <button class="filter-btn active" onclick="filter('הכל')">הכל</button>
+          <button class="filter-btn" onclick="filter('פרשת השבוע')">פרשת השבוע</button>
+          <button class="filter-btn" onclick="filter('מועדים וזמנים')">מועדים וזמנים</button>
+          <button class="filter-btn" onclick="filter('רפואה והלכה')">רפואה והלכה</button>
+          <button class="filter-btn" onclick="filter('אמונה והשקפה')">אמונה והשקפה</button>
+          <button class="filter-btn" onclick="filter('הלכה ומשפט')">הלכה ומשפט</button>
+          <button class="filter-btn" onclick="filter('ברית מילה')">ברית מילה</button>
         </div>
+
+        <!-- Torah list -->
+        <div class="torah-grid" id="torah-grid"></div>
 
       </div>
     </main>
-
-    <!-- Text entry modal -->
-    <div class="modal-overlay" id="modal-text">
-      <div class="modal">
-        <button class="modal-close" onclick="closeModal('modal-text')" aria-label="סגור">✕</button>
-        <h2 class="modal-title">דבר תורה חדש</h2>
-        <div class="field">
-          <label for="f-title">כותרת</label>
-          <input type="text" id="f-title" placeholder="למשל: ויצא — כח הדיבור" />
-        </div>
-        <div class="field">
-          <label for="f-meta">פרשה / תאריך</label>
-          <input type="text" id="f-meta" placeholder='למשל: פרשת ויצא · תשפ"ו' />
-        </div>
-        <div class="field">
-          <label for="f-body">תוכן</label>
-          <textarea id="f-body" placeholder="כתוב כאן את דבר התורה..."></textarea>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-cancel" onclick="closeModal('modal-text')">ביטול</button>
-          <button class="btn-save" onclick="saveTextEntry()">שמור</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Document modal -->
-    <div class="modal-overlay" id="modal-doc">
-      <div class="modal">
-        <button class="modal-close" onclick="closeModal('modal-doc')" aria-label="סגור">✕</button>
-        <h2 class="modal-title">הוספת מסמך</h2>
-        <div class="field">
-          <label for="d-title">שם המסמך</label>
-          <input type="text" id="d-title" placeholder="למשל: שו"ת — פיקוח נפש בשבת" />
-        </div>
-        <div class="field">
-          <label for="d-meta">תיאור / תאריך (אופציונלי)</label>
-          <input type="text" id="d-meta" placeholder='למשל: תשפ"ו' />
-        </div>
-        <div class="field">
-          <label>קובץ (PDF או Word)</label>
-          <div class="file-zone" id="file-zone">
-            <input type="file" id="d-file" accept=".pdf,.doc,.docx" onchange="onFileChosen(this)" />
-            <div class="file-zone-icon">📄</div>
-            <div class="file-zone-text">גרור קובץ לכאן או <strong>לחץ לבחירה</strong></div>
-            <div class="file-zone-name" id="file-name"></div>
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-cancel" onclick="closeModal('modal-doc')">ביטול</button>
-          <button class="btn-save" onclick="saveDocEntry()">שמור</button>
-        </div>
-      </div>
-    </div>
 
     <footer class="site-footer">
       <p>&copy; <span id="year"></span> Asher Taragin</p>
@@ -385,193 +185,54 @@
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      const TEXT_KEY = 'divrei-torah';
-      const DOCS_KEY = 'divrei-torah-docs';
+      // ── FILES array — each entry added here by the admin tool ──
+      const FILES = [
+      ];
 
-      /* ── Storage helpers ── */
-      function loadText() {
-        try { return JSON.parse(localStorage.getItem(TEXT_KEY) || '[]'); } catch { return []; }
-      }
-      function saveText(e) { localStorage.setItem(TEXT_KEY, JSON.stringify(e)); }
+      let activeFilter = 'הכל';
 
-      function loadDocs() {
-        try { return JSON.parse(localStorage.getItem(DOCS_KEY) || '[]'); } catch { return []; }
-      }
-      function saveDocs(d) { localStorage.setItem(DOCS_KEY, JSON.stringify(d)); }
-
-      /* ── Render ── */
-      function render() {
-        renderText();
-        renderDocs();
-      }
-
-      function escHtml(s) {
-        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      }
-
-      function renderText() {
-        const entries = loadText();
-        const list = document.getElementById('torah-list');
-        if (entries.length === 0) {
-          list.innerHTML = `
-            <div class="torah-placeholder">
-              <div class="placeholder-icon">✦</div>
-              <p>לחץ על הכפתורים למעלה כדי להוסיף</p>
-            </div>`;
-          return;
-        }
-        list.innerHTML = entries.map((e, i) => `
-          <article class="torah-entry">
-            <button class="btn-delete" onclick="deleteText(${i})" title="מחק">✕</button>
-            <h2 class="torah-title">${escHtml(e.title)}</h2>
-            ${e.meta ? `<p class="torah-meta">${escHtml(e.meta)}</p>` : ''}
-            <div class="torah-body">
-              ${e.body.split('\n').filter(l => l.trim()).map(l => `<p>${escHtml(l)}</p>`).join('')}
-            </div>
-          </article>
-        `).join('');
-      }
-
-      function renderDocs() {
-        const docs = loadDocs();
-        const section = document.getElementById('docs-section');
-        const list = document.getElementById('docs-list');
-        if (docs.length === 0) { section.style.display = 'none'; return; }
-        section.style.display = 'block';
-        list.innerHTML = docs.map((d, i) => {
-          const ext = d.filename ? d.filename.split('.').pop().toLowerCase() : 'pdf';
-          const icon = ext === 'pdf' ? '📕' : '📘';
-          return `
-            <div class="doc-entry">
-              <button class="btn-delete" onclick="deleteDoc(${i})" title="מחק">✕</button>
-              <div class="doc-icon">${icon}</div>
-              <div class="doc-info">
-                <div class="doc-title">${escHtml(d.title)}</div>
-                ${d.meta ? `<div class="doc-meta">${escHtml(d.meta)}</div>` : ''}
-              </div>
-              <a class="btn-download" href="${d.data}" download="${escHtml(d.filename || d.title)}">⬇ הורד</a>
-            </div>`;
-        }).join('');
-      }
-
-      /* ── Password check ── */
-      function checkPassword() {
-        const pw = prompt('הכנס סיסמה:');
-        if (pw === 'Torah613') return true;
-        if (pw !== null) alert('סיסמה שגויה');
-        return false;
-      }
-
-      /* ── Modals ── */
-      function openTextModal() {
-        if (!checkPassword()) return;
-        document.getElementById('f-title').value = '';
-        document.getElementById('f-meta').value = '';
-        document.getElementById('f-body').value = '';
-        document.getElementById('modal-text').classList.add('open');
-        document.getElementById('f-title').focus();
-      }
-
-      function openDocModal() {
-        if (!checkPassword()) return;
-        document.getElementById('d-title').value = '';
-        document.getElementById('d-meta').value = '';
-        document.getElementById('d-file').value = '';
-        document.getElementById('file-name').style.display = 'none';
-        document.getElementById('file-name').textContent = '';
-        document.getElementById('modal-doc').classList.add('open');
-      }
-
-      function closeModal(id) {
-        document.getElementById(id).classList.remove('open');
-      }
-
-      /* ── File picker feedback ── */
-      function onFileChosen(input) {
-        const nameEl = document.getElementById('file-name');
-        if (input.files && input.files[0]) {
-          nameEl.textContent = '✓ ' + input.files[0].name;
-          nameEl.style.display = 'block';
-        }
-      }
-
-      /* ── Save text ── */
-      function saveTextEntry() {
-        const title = document.getElementById('f-title').value.trim();
-        const meta  = document.getElementById('f-meta').value.trim();
-        const body  = document.getElementById('f-body').value.trim();
-        if (!title || !body) { alert('נא למלא כותרת ותוכן.'); return; }
-        const entries = loadText();
-        entries.unshift({ title, meta, body });
-        saveText(entries);
-        closeModal('modal-text');
+      function filter(cat) {
+        activeFilter = cat;
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.textContent.trim() === cat);
+        });
         render();
       }
 
-      /* ── Save document ── */
-      function saveDocEntry() {
-        const title = document.getElementById('d-title').value.trim();
-        const meta  = document.getElementById('d-meta').value.trim();
-        const file  = document.getElementById('d-file').files[0];
-        if (!title) { alert('נא למלא שם מסמך.'); return; }
-        if (!file)  { alert('נא לבחור קובץ.'); return; }
-        if (file.size > 4 * 1024 * 1024) { alert('הקובץ גדול מדי (מקסימום 4MB). אנא דחוס אותו ונסה שוב.'); return; }
+      function render() {
+        const grid = document.getElementById('torah-grid');
+        const list = activeFilter === 'הכל'
+          ? FILES
+          : FILES.filter(e => e.category === activeFilter);
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const docs = loadDocs();
-          docs.unshift({ title, meta, filename: file.name, data: e.target.result });
-          try {
-            saveDocs(docs);
-            closeModal('modal-doc');
-            render();
-          } catch(err) {
-            alert('הקובץ גדול מדי לשמירה. אנא נסה קובץ קטן יותר.');
-          }
-        };
-        reader.readAsDataURL(file);
+        if (list.length === 0) {
+          grid.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">✦</div>
+              <p>${activeFilter === 'הכל' ? 'דברי תורה יתווספו בקרוב' : 'אין דברי תורה בקטגוריה זו'}</p>
+              <p class="sub">Torah teachings coming soon</p>
+            </div>`;
+          return;
+        }
+
+        grid.innerHTML = list.map(e => `
+          <div class="torah-card">
+            <div class="card-icon">📕</div>
+            <div class="card-info">
+              <div class="card-title">${esc(e.title)}</div>
+              ${e.meta ? `<div class="card-meta">${esc(e.meta)}</div>` : ''}
+              ${e.category ? `<span class="card-cat">${esc(e.category)}</span>` : ''}
+            </div>
+            <a class="btn-view" href="${esc(e.file)}" target="_blank" rel="noopener">📖 פתח</a>
+          </div>
+        `).join('');
       }
 
-      /* ── Download Torah entries ── */
-      function downloadTorahEntries() {
-        if (!checkPassword()) return;
-        const entries = loadText();
-        if (entries.length === 0) { alert('אין דברי תורה להורדה.'); return; }
-        const lines = entries.map(e =>
-          `${e.title}\n${e.meta ? e.meta + '\n' : ''}${'─'.repeat(40)}\n${e.body}\n`
-        ).join('\n\n');
-        const content = `דברי תורה — הרב ד"ר עו"ד אשר טרגין\n${'═'.repeat(40)}\n\n${lines}`;
-        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'divrei-torah.txt';
-        a.click();
-        URL.revokeObjectURL(url);
+      function esc(s) {
+        return String(s)
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+          .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       }
-
-      /* ── Delete ── */
-      function deleteText(i) {
-        if (!confirm('למחוק את הדבר תורה הזה?')) return;
-        const e = loadText(); e.splice(i, 1); saveText(e); render();
-      }
-      function deleteDoc(i) {
-        if (!confirm('למחוק את המסמך הזה?')) return;
-        const d = loadDocs(); d.splice(i, 1); saveDocs(d); render();
-      }
-
-      /* Close on overlay click */
-      ['modal-text','modal-doc'].forEach(id => {
-        document.getElementById(id).addEventListener('click', function(e) {
-          if (e.target === this) closeModal(id);
-        });
-      });
-
-      /* Drag feedback */
-      const zone = document.getElementById('file-zone');
-      zone.addEventListener('dragover', () => zone.classList.add('drag'));
-      zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
-      zone.addEventListener('drop', () => zone.classList.remove('drag'));
 
       render();
     </script>

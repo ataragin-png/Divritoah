@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>פרסום דבר תורה — אדמין</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #fdf6ee; --parchment: #f5e9d4;
+      --gold: #b8863a; --gold-light: #d4a85a;
+      --ink: #2c1f0e; --ink-muted: #6b5340; --border: #ddc99e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--cream); color: var(--ink);
+      font-family: 'Frank Ruhl Libre', serif;
+      min-height: 100vh; padding: 60px 24px 40px;
+    }
+    .container { max-width: 620px; margin: 0 auto; }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; color: var(--ink);
+      margin-bottom: 6px; text-align: center;
+    }
+    .page-sub { text-align: center; color: var(--ink-muted); font-size: 15px; margin-bottom: 36px; }
+
+    .card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 8px; padding: 32px 28px;
+      box-shadow: 0 2px 16px rgba(184,134,58,0.08);
+    }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block; font-size: 14px; font-weight: 500;
+      color: var(--ink-muted); margin-bottom: 6px;
+    }
+    .field input[type="text"],
+    .field input[type="password"],
+    .field select,
+    .field textarea {
+      width: 100%; border: 1.5px solid var(--border); border-radius: 4px;
+      padding: 10px 14px; font-family: 'Frank Ruhl Libre', serif;
+      font-size: 16px; color: var(--ink); background: var(--cream);
+      outline: none; transition: border-color 0.2s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--gold);
+    }
+    .field textarea { min-height: 180px; resize: vertical; }
+
+    /* Toggle tabs */
+    .input-tabs { display: flex; gap: 0; margin-bottom: 10px; }
+    .tab-btn {
+      flex: 1; padding: 9px; border: 1.5px solid var(--border);
+      background: var(--cream); color: var(--ink-muted);
+      font-family: 'Frank Ruhl Libre', serif; font-size: 15px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .tab-btn:first-child { border-radius: 4px 0 0 4px; }
+    .tab-btn:last-child  { border-radius: 0 4px 4px 0; border-right: none; border-left: 1.5px solid var(--border); }
+    .tab-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+    /* File zone */
+    .file-zone {
+      border: 2px dashed var(--border); border-radius: 6px;
+      padding: 28px 16px; text-align: center; cursor: pointer;
+      background: var(--cream); position: relative; transition: border-color 0.2s;
+    }
+    .file-zone:hover { border-color: var(--gold); }
+    .file-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .file-zone-icon { font-size: 30px; margin-bottom: 8px; }
+    .file-zone-text { font-size: 15px; color: var(--ink-muted); }
+    .file-zone-text strong { color: var(--gold); }
+    .file-chosen { margin-top: 8px; font-size: 14px; color: var(--ink); display: none; }
+
+    .btn-submit {
+      width: 100%; background: var(--gold); color: #fff; border: none;
+      border-radius: 4px; padding: 14px; font-family: 'Frank Ruhl Libre', serif;
+      font-size: 18px; font-weight: 500; cursor: pointer;
+      transition: background 0.2s; margin-top: 8px;
+    }
+    .btn-submit:hover { background: var(--gold-light); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Result */
+    .result {
+      margin-top: 24px; padding: 18px 20px; border-radius: 6px;
+      font-size: 15px; display: none;
+    }
+    .result.success { background: #f0faf0; border: 1px solid #7bc67e; color: #1a5c1a; }
+    .result.error   { background: #fff0f0; border: 1px solid #e08080; color: #8b1a1a; }
+    .result .live-link { margin-top: 10px; }
+    .result .live-link a { color: var(--gold); font-weight: 500; }
+
+    .divider { height: 1px; background: var(--border); margin: 24px 0; }
+    .back-link { display: inline-block; margin-bottom: 24px; color: var(--ink-muted); text-decoration: none; font-size: 15px; }
+    .back-link:hover { color: var(--gold); }
+
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-left: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← חזרה לאתר</a>
+    <h1 class="page-title">פרסום דבר תורה</h1>
+    <p class="page-sub">הרב ד"ר עו"ד אשר טרגין</p>
+
+    <div class="card">
+      <form id="publish-form">
+
+        <div class="field">
+          <label for="f-pw">סיסמה</label>
+          <input type="password" id="f-pw" name="password" placeholder="הכנס סיסמה" autocomplete="current-password"/>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field">
+          <label for="f-title">כותרת <span style="color:#c0392b">*</span></label>
+          <input type="text" id="f-title" name="title" placeholder='למשל: פרשת בראשית — בריאת העולם'/>
+        </div>
+
+        <div class="field">
+          <label for="f-meta">כיתוב / תאריך (אופציונלי)</label>
+          <input type="text" id="f-meta" name="meta" placeholder='למשל: פרשת בראשית · תשפ"ו'/>
+        </div>
+
+        <div class="field">
+          <label for="f-cat">קטגוריה <span style="color:#c0392b">*</span></label>
+          <select id="f-cat" name="category">
+            <option value="">— בחר קטגוריה —</option>
+            <option>פרשת השבוע</option>
+            <option>מועדים וזמנים</option>
+            <option>רפואה והלכה</option>
+            <option>אמונה והשקפה</option>
+            <option>הלכה ומשפט</option>
+            <option>ברית מילה</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>תוכן הדבר תורה <span style="color:#c0392b">*</span></label>
+          <div class="input-tabs">
+            <button type="button" class="tab-btn active" onclick="switchTab('text')">✍️ הכנסת טקסט</button>
+            <button type="button" class="tab-btn" onclick="switchTab('file')">📄 העלאת PDF</button>
+          </div>
+
+          <div id="tab-text">
+            <textarea name="body_text" id="f-body" placeholder="כתוב או הדבק כאן את דבר התורה בעברית...&#10;המערכת תמיר אותו אוטומטית ל-PDF."></textarea>
+          </div>
+
+          <div id="tab-file" style="display:none">
+            <div class="file-zone" id="file-zone">
+              <input type="file" name="pdf_file" id="f-file" accept=".pdf" onchange="onFile(this)"/>
+              <div class="file-zone-icon">📕</div>
+              <div class="file-zone-text">גרור PDF לכאן או <strong>לחץ לבחירה</strong></div>
+              <div class="file-chosen" id="file-chosen"></div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">פרסם דבר תורה</button>
+      </form>
+
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach((t,i) => t.classList.toggle('active', (i===0) === (tab==='text')));
+      document.getElementById('tab-text').style.display = tab === 'text' ? '' : 'none';
+      document.getElementById('tab-file').style.display = tab === 'file' ? '' : 'none';
+      // Clear the hidden field
+      if (tab === 'text') document.getElementById('f-file').value = '';
+      else document.getElementById('f-body').value = '';
+    }
+
+    function onFile(input) {
+      const el = document.getElementById('file-chosen');
+      if (input.files[0]) { el.textContent = '✓ ' + input.files[0].name; el.style.display = 'block'; }
+    }
+
+    document.getElementById('publish-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const res = document.getElementById('result');
+      btn.disabled = true;
+      btn.innerHTML = 'מפרסם...<span class="spinner"></span>';
+      res.style.display = 'none';
+
+      const fd = new FormData(e.target);
+      try {
+        const r = await fetch('/api/publish', { method: 'POST', body: fd });
+        const data = await r.json();
+        if (data.success) {
+          res.className = 'result success';
+          res.innerHTML = `✅ ${data.message}<div class="live-link">🔗 <a href="${data.live_url}" target="_blank">צפה באתר החי</a> (יתעדכן תוך 1–2 דקות)</div>`;
+        } else {
+          res.className = 'result error';
+          res.innerHTML = `❌ ${data.error}`;
+        }
+      } catch(err) {
+        res.className = 'result error';
+        res.innerHTML = '❌ שגיאת רשת — נסה שוב';
+      }
+      res.style.display = 'block';
+      btn.disabled = false;
+      btn.innerHTML = 'פרסם דבר תורה';
+    });
+
+    // Drag feedback
+    const zone = document.getElementById('file-zone');
+    zone.addEventListener('dragover', () => zone.style.borderColor = 'var(--gold)');
+    zone.addEventListener('dragleave', () => zone.style.borderColor = '');
+    zone.addEventListener('drop', () => zone.style.borderColor = '');
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+Build a "Publish Dvar Torah" feature into this app.
+
+Context: My website is a static GitHub Pages site at the repo
+ataragin-png/Divritoah (branch: main). The page divrei-torah.html
+contains a JavaScript array called FILES near the top of its <script>
+section. Each entry looks like:
+  { title: "...", meta: "...", file: "files/some-name.pdf" }
+The PDFs live in the files/ folder of the repo. Adding a new dvar torah
+means: (1) upload a new PDF to files/ and (2) add a new entry at the TOP
+of the FILES array in divrei-torah.html.
+
+PART A — Categories on the website:
+Update divrei-torah.html so every FILES entry also has a category field:
+  { title: "...", meta: "...", file: "...", category: "..." }
+The six categories (exact Hebrew strings):
+  "פרשת השבוע", "מועדים וזמנים", "רפואה והלכה",
+  "אמונה והשקפה", "הלכה ומשפט", "ברית מילה"
+Add a row of filter buttons above the list (styled to match the site's
+existing gold/cream design and CSS variables) with an "הכל" button as
+the default that shows everything; clicking a category shows only its
+entries. Assign the three existing entries:
+  - reiyat-pnei-hashem.pdf → "מועדים וזמנים"
+  - refua-veemuna.pdf → "אמונה והשקפה"
+  - morphine-dyspnea.pdf → "רפואה והלכה"
+Keep everything else on the page exactly as it is (RTL, design, header,
+footer).
+
+PART B — Admin publishing tool in this app:
+1. An admin page protected by the password "Torah613" (this is only an
+   app-level gate, NOT a GitHub credential).
+2. A form with: title (Hebrew), subtitle/meta (Hebrew, optional), a
+   category dropdown with the six categories above, and either a PDF
+   file upload OR a text box where I write/paste the dvar torah in
+   Hebrew. If I paste text, generate a clean RTL Hebrew PDF from it
+   (proper Hebrew font, right-to-left layout — if Hebrew comes out
+   reversed or garbled, use a library with real RTL/bidi support such
+   as WeasyPrint with an RTL HTML template).
+3. On submit, the server pushes to GitHub using the GitHub REST API
+   (PUT /repos/ataragin-png/Divritoah/contents/{path}):
+   - Upload the PDF to files/<transliterated-english-filename>.pdf
+   - Fetch divrei-torah.html, get its sha, insert the new entry
+     (including its category) at the top of the FILES array, and commit
+     the updated file (must include the sha when updating).
+4. Authenticate with a token stored in the Replit Secret GITHUB_TOKEN.
+   Never expose it to the client/browser — all GitHub calls happen
+   server-side.
+5. Show a success message with the live link:
+   https://ataragin-png.github.io/Divritoah/divrei-torah.html
+   and note it takes 1-2 minutes for GitHub Pages to update.
+
+Do not modify anything else in the repo. Keep filenames ASCII
+(transliterated), since Hebrew filenames cause URL encoding issues.
