@@ -127,6 +127,20 @@
       }
       .btn-admin:hover { background: var(--gold-light); }
 
+      /* ── Remove button ── */
+      .btn-remove {
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: var(--border);
+        padding: 4px 6px;
+        border-radius: 4px;
+        transition: color 0.2s, background 0.2s;
+        flex-shrink: 0;
+      }
+      .btn-remove:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
+
       @media (max-width: 520px) {
         .torah-card { flex-wrap: wrap; }
         .btn-view { width: 100%; justify-content: center; }
@@ -187,6 +201,9 @@
 
       // ── FILES array — each entry added here by the admin tool ──
       const FILES = [
+  { title: "ראיית פני ה'", meta: "דבר תורה לשבת חול המועד פסח", file: "files/reiyat-pnei-hashem.pdf", category: "מועדים וזמנים" },
+  { title: "רפואה ואמונה", meta: "חיזוק האמונה ואהבת ה' דרך עולם הרפואה", file: "files/refua-veemuna.pdf", category: "אמונה והשקפה" },
+  { title: "מתן אופיאטים כטיפול בקוצר נשימה בחולה הנוטה למות", meta: "ד\"ר אשר טרגין וד\"ר מאיר פרנקל · רפואה והלכה", file: "files/morphine-dyspnea.pdf", category: "רפואה והלכה" },
       ];
 
       let activeFilter = 'הכל';
@@ -224,8 +241,29 @@
               ${e.category ? `<span class="card-cat">${esc(e.category)}</span>` : ''}
             </div>
             <a class="btn-view" href="${esc(e.file)}" target="_blank" rel="noopener">📖 פתח</a>
+            <button class="btn-remove" onclick="removeEntry('${e.file.replace(/'/g,"\\'")}', '${esc(e.title).replace(/'/g,"\\'")}')">🗑</button>
           </div>
         `).join('');
+      }
+
+      async function removeEntry(filePath, title) {
+        const pw = prompt('הכנס סיסמה להסרת הדבר תורה:');
+        if (!pw) return;
+        if (!confirm(`האם להסיר את "${title}"?`)) return;
+        try {
+          const fd = new FormData();
+          fd.append('password', pw);
+          fd.append('file', filePath);
+          const r = await fetch('/api/remove', { method: 'POST', body: fd });
+          const data = await r.json();
+          if (data.success) {
+            alert('✅ הדבר תורה הוסר בהצלחה!\nהאתר יתעדכן תוך 1–2 דקות.');
+          } else {
+            alert('❌ ' + data.error);
+          }
+        } catch(e) {
+          alert('❌ שגיאת רשת — נסה שוב');
+        }
       }
 
       function esc(s) {

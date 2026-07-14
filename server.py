@@ -157,6 +157,32 @@ def publish():
         'live_url': 'https://ataragin-png.github.io/Divritoah/divrei-torah.html'
     })
 
+@app.route('/api/remove', methods=['POST'])
+def remove():
+    if request.form.get('password', '') != PASSWORD:
+        return jsonify({'error': 'סיסמה שגויה'}), 403
+
+    file_path = request.form.get('file', '').strip()
+    if not file_path:
+        return jsonify({'error': 'חסר נתיב קובץ'}), 400
+    if not GITHUB_TOKEN:
+        return jsonify({'error': 'GITHUB_TOKEN לא מוגדר'}), 500
+
+    try:
+        html, sha = gh_get('divrei-torah.html')
+        # Remove the line containing this file path
+        lines = html.split('\n')
+        new_lines = [l for l in lines if f'file: "{file_path}"' not in l]
+        if len(new_lines) == len(lines):
+            return jsonify({'error': 'הרשומה לא נמצאה'}), 404
+        new_html = '\n'.join(new_lines)
+        gh_put('divrei-torah.html', new_html.encode('utf-8'),
+               f'Remove dvar torah: {file_path}', sha=sha)
+    except Exception as e:
+        return jsonify({'error': f'שגיאה: {e}'}), 500
+
+    return jsonify({'success': True})
+
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
 def static_files(path):
