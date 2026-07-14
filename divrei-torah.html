@@ -283,6 +283,11 @@
       }
 
       function openModal() {
+        const pw = prompt('הכנס סיסמה:');
+        if (pw !== 'Torah613') {
+          if (pw !== null) alert('סיסמה שגויה');
+          return;
+        }
         document.getElementById('f-title').value = '';
         document.getElementById('f-meta').value = '';
         document.getElementById('f-body').value = '';
