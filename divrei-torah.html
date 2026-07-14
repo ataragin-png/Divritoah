@@ -305,6 +305,9 @@
           <button class="btn-add" onclick="openTextModal()">
             <span class="plus">+</span> הוסף דבר תורה
           </button>
+          <button class="btn-add btn-outline" onclick="downloadTorahEntries()">
+            ⬇ הורד דברי תורה
+          </button>
           <button class="btn-add btn-outline" onclick="openDocModal()">
             <span class="plus">+</span> הוסף מסמך
           </button>
@@ -527,6 +530,24 @@
           }
         };
         reader.readAsDataURL(file);
+      }
+
+      /* ── Download Torah entries ── */
+      function downloadTorahEntries() {
+        if (!checkPassword()) return;
+        const entries = loadText();
+        if (entries.length === 0) { alert('אין דברי תורה להורדה.'); return; }
+        const lines = entries.map(e =>
+          `${e.title}\n${e.meta ? e.meta + '\n' : ''}${'─'.repeat(40)}\n${e.body}\n`
+        ).join('\n\n');
+        const content = `דברי תורה — הרב ד"ר עו"ד אשר טרגין\n${'═'.repeat(40)}\n\n${lines}`;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'divrei-torah.txt';
+        a.click();
+        URL.revokeObjectURL(url);
       }
 
       /* ── Delete ── */
