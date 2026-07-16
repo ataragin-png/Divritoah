@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ataragin-png.github.io/Divritoah/sitemap.xml
