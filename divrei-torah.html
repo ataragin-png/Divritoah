@@ -192,6 +192,17 @@
       .btn-remove:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
 
       /* ── Search box ── */
+      /* ── Count label ── */
+      .torah-count {
+        text-align: center;
+        font-family: 'Frank Ruhl Libre', serif;
+        font-size: 14px;
+        color: var(--ink-muted);
+        margin: -16px 0 22px;
+        letter-spacing: 0.01em;
+      }
+
+      /* ── Search box ── */
       .search-wrap {
         position: relative;
         max-width: 440px;
@@ -275,6 +286,9 @@
           <a href="/admin" class="btn-admin admin-only-btn">✍️ פרסם דבר תורה חדש</a>
           <button class="btn-admin btn-admin-outline" onclick="filter('הכל'); document.getElementById('torah-grid').scrollIntoView({behavior:'smooth'})">📚 כל הדברי תורה</button>
         </div>
+
+        <!-- Count -->
+        <p class="torah-count" id="torah-count"></p>
 
         <!-- Search -->
         <div class="search-wrap">
@@ -417,6 +431,18 @@
             (e.meta  || '').toLowerCase().includes(q) ||
             (e.category || '').toLowerCase().includes(q)
           );
+        }
+
+        // Update count label
+        const countEl = document.getElementById('torah-count');
+        if (countEl) {
+          if (activeQuery) {
+            countEl.textContent = list.length === 0
+              ? 'לא נמצאו תוצאות'
+              : `נמצאו ${list.length} תוצאות`;
+          } else {
+            countEl.textContent = `${FILES.length} דברי תורה`;
+          }
         }
 
         if (list.length === 0) {
