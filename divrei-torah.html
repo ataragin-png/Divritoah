@@ -437,9 +437,9 @@
         const countEl = document.getElementById('torah-count');
         if (countEl) {
           if (activeQuery) {
-            countEl.textContent = list.length === 0
-              ? 'לא נמצאו תוצאות'
-              : `נמצאו ${list.length} תוצאות`;
+            countEl.textContent = list.length === 0 ? 'לא נמצאו תוצאות' : `נמצאו ${list.length} תוצאות`;
+          } else if (activeFilter !== 'הכל') {
+            countEl.textContent = `${list.length} דברי תורה ב${activeFilter}`;
           } else {
             countEl.textContent = `${FILES.length} דברי תורה`;
           }
